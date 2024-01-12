@@ -6,7 +6,7 @@ Somewhat humorously, modeling the game of **20 questions** perfectly has been be
 
 ## Introduction
 
-To briefly review: 20 questions is a game that any human can easily define based on an abstract rule set:
+20 questions is a game that any human can easily define based on an abstract rule set:
 
 1. Introduce the game, ask to play
 1. One player picks an object secretly

@@ -5,6 +5,7 @@ This repository is a place for sharing knowledge on how to create new behaviors 
 If you have access to the **Soul Engine**, any soul in the repo can be run from its root directory
 
 ```bash
+cd example-twenty-questions
 npx soul-engine dev
 ```
 
