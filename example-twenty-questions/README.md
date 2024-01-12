@@ -1,6 +1,10 @@
 # Twenty questions
 
-Somewhat humorously, modeling the game of **20 questions** perfectly has been beyond reach for transformer based systems for years.
+**Soul Designer:** [@tobowers](https://github.com/tobowers)
+
+Somewhat humorously, modeling the game of **20 questions** perfectly has been beyond reach for transformer based systems for years. But the **Soul Engine** makes modeling this game easy.
+
+## Introduction
 
 To briefly review: 20 questions is a game that any human can easily define based on an abstract rule set:
 
@@ -13,6 +17,8 @@ The reason 20 questions is so hard for transformers to model is because the game
 
 This is where the **Soul Engine** comes in. The Engine framework allows for explicit modeling of stateful behavior in AI souls.
 
+## Mental processes overview
+
 The soul in this example models 20 questions with two mental processes `introduction` and `answersQuestions`. As a reminder, each mental process is a functional process that performs operations on working memory and process memory, before returning an updated copy of the memory. To understand in more detail how the **Soul Engine** helps us model the game of 20 questions, let's take a look at some abstract representations of these two processes.
 
 First, the game begins with the [`introduction`](src/introduction.ts):
@@ -24,3 +30,11 @@ When the player agrees to play with the Soul, then the [`answersQuestions`](src/
 <img src="answersQuestions.png" alt="Introduction" width="350"/>
 
 The full definition can be found in the code, but this should provide a high-level overview of how the **Soul Engine** helps specify complex stateful behavior.
+
+## Run this example in the Soul Engine
+
+Playing around with the example is simple if you're a Soul Engine user - simply run
+
+`npx soul-engine dev`
+
+in this directory and start modifying the code!
