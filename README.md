@@ -9,11 +9,11 @@ cd example-twenty-questions
 npx soul-engine dev
 ```
 
-## Contributing
+## 🙋 Contributing
 
 1. Open up a PR with a new soul!
 
-## Getting access
+## 🔑 Getting access
 1. Join the [Discord](http://discord.gg/opensouls)
 1. Build something cool with [SocialAGI](http://socialagi.dev)
 1. Ask someone from OPEN SOULS to join the waitlist
