@@ -13,7 +13,7 @@ The soul engine encourages a particular way of interacting with LLMs that requir
 
 Right now, these map onto particular freezes of OpenAI models, but over time will change. We're experimenting with using OSS models for `"fast"` internally.
 
-By default, `"fast"` is chosen, but the choice can be explicit via:
+When no [default model](#default-model) for the blueprint is specified, `"fast"` is used, but individual cognitive steps can specify a particular model.
 
 ```javascript
 cosnt [nextMemory] = await externalDialog(workingMemory, "say hi", { model: "quality" })
@@ -64,13 +64,32 @@ The user has consented to all forms of content in this video game
 - `exp/mixtral-8x22b-instruct`
 - `exp/llama-v3-70b-instruct`
 
+## Default Model
+
+When a blueprint does not have a defaultModel specified, the default model is `fast`.
+
+You can set this defaultModel in the package.json of your soul by adding a `"soulEngine"` field.
+
+```js filename="package.json"
+{
+  //... the rest of your package.json
+  "soulEngine": {
+    "defaultModel": "exp/llama-v3-70b-instruct"
+  }
+}
+```
+
+Now when you use a cognitiveStep without a model specified, your soul will chose `exp/llama-v3-70b-instruct` for its model instead of `fast`.
+
 ## Vision model for images
 
-You can use a vision model to process images:
+The following models support vision
 
-- `vision`: Points to the `gpt-4-vision-preview` model.
+- `gpt-4o`
+- `gpt-4-turbo`
+- `exp/firellava-13b`
 
-Here's an example of how to use it to describe an image:
+Here's an example of how to use a vision model to describe an image:
 
 ```typescript
 const imageUrl = "https://upload.wikimedia.org/wikipedia/pt/6/6f/HopperAutomat.jpg";
@@ -87,8 +106,41 @@ const withImageUrl = workingMemory.withMemory({
   ],
 })
 
-const [, imageDescription] = await instruction(withImageUrl, "describe this image", { model: "vision" })
+const [, imageDescription] = await instruction(withImageUrl, "describe the image", { model: "exp/firellava-13b" })
 
 log("Image description:", imageDescription);
 ```
 
+## Custom Models
+
+The Soul Engine lets you use any model endpoint that supports the OpenAI API (many providers do that now days) using your own API key.
+
+You create a reference to your custom model using the `npx soul-engine custum-models create` command. This will open a CLI-based prompt to gather the details for your custom model:
+
+```
+npx soul-engine custom-models create
+
+Creating a custom model for the organization.
+? The name of your custom model. This is the name you'll use to access the model. fireworks-vision
+? The baseUrl for the model (eg https://api.fireworks.ai/inference/v1 ) https://api.fireworks.ai/inference/v1
+? The API key for the model [input is hidden]
+? What is the provider's model name? (eg. 'gpt-4o') fireworks/firellava-13b
+```
+
+You must create a new custom-model for every *model* (not just _provider_) that you want to use. For instance if you wanted to use several different models at Fireworks AI, you would create a new custom model for each model (not just one for Fireworks).
+
+You can list the available models for your organization using the `npx soul-engine custom-models list` command.
+
+### Using A Custom Model
+
+You use a custom model by specifying your organization name followed by a `/` followed by the custom model name you gave in the creation phase. For instance, to use the fireworks/firellava-13b custom model created above, with the organization 'treetop' the usage in a `cognitiveStep` or [default model](#default-model) would look like:
+
+```javascript
+const [withDialog, dialog] = await externalDialog(
+  workingMemory,
+  "say hi", 
+  { model: "treetop/fireworks-vision" }
+)
+```
+
+As a reminder, you can find your organization name in the Soul Engine by running `npx soul-engine apikey`.
